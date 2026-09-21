@@ -1,0 +1,94 @@
+{
+  "esmc-600m-2024-12": {
+    "description": "ESMC 600M (Standard High-Accuracy, 37 layers, 1152-dim)",
+    "total_layers": 37,
+    "hidden_dimension": 1152,
+    "selected_layer": -2,
+    "microprotein": {
+      "id": "c11norep11",
+      "gene": "IGF2-AS",
+      "length_aa": 131,
+      "l2_norm": 2006.8558349609375,
+      "mean_activation": 0.45406511425971985,
+      "std_activation": 59.125816345214844,
+      "latency_sec": 1.782,
+      "vector_sample": [
+        35.25,
+        12.25,
+        26.25,
+        23.125,
+        33.5,
+        23.625,
+        -9.4375,
+        7.6875
+      ]
+    },
+    "human_protein": {
+      "id": "P01344",
+      "gene": "IGF2",
+      "protein_name": "Insulin-like growth factor 2",
+      "length_aa": 180,
+      "l2_norm": 1422.775390625,
+      "mean_activation": 0.9624519348144531,
+      "std_activation": 41.90786361694336,
+      "latency_sec": 0.592,
+      "vector_sample": [
+        -10.125,
+        2.59375,
+        0.25781,
+        -6.375,
+        -6.125,
+        8.5,
+        18.375,
+        -8.25
+      ]
+    },
+    "latent_cosine_similarity": 0.73276
+  },
+  "esmc-6b-2024-12": {
+    "description": "ESMC 6B (Frontier World Model, 81 layers, 2560-dim)",
+    "total_layers": 81,
+    "hidden_dimension": 2560,
+    "selected_layer": -2,
+    "microprotein": {
+      "id": "c11norep11",
+      "gene": "IGF2-AS",
+      "length_aa": 131,
+      "l2_norm": 5531.94091796875,
+      "mean_activation": -0.5388614535331726,
+      "std_activation": 109.333251953125,
+      "latency_sec": 2.625,
+      "vector_sample": [
+        111.5,
+        -90.0,
+        63.5,
+        -27.625,
+        40.75,
+        -33.75,
+        34.5,
+        109.5
+      ]
+    },
+    "human_protein": {
+      "id": "P01344",
+      "gene": "IGF2",
+      "protein_name": "Insulin-like growth factor 2",
+      "length_aa": 180,
+      "l2_norm": 3960.123779296875,
+      "mean_activation": 0.7863656282424927,
+      "std_activation": 78.2648696899414,
+      "latency_sec": 0.898,
+      "vector_sample": [
+        13.125,
+        -28.625,
+        -12.75,
+        29.0,
+        64.5,
+        -2.28125,
+        16.375,
+        -3.23438
+      ]
+    },
+    "latent_cosine_similarity": 0.56562
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@weslleycapelari/adapter-antigravity-local": "^1.0.0"
+  }
+}

@@ -1,0 +1,3 @@
+Notification: Please check the STRING database terms and access conditions at https://string-db.org/cgi/access. STRING data and services are available freely under Creative Commons Attribution 4.0 (CC BY 4.0) license for academic and research use.
+Timestamp: 2026-09-16T20:35:00-03:00
+Status: Notified user in conversation 04e27646-d142-425d-9c96-7e7a0a76362c

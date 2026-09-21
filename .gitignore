@@ -1,0 +1,48 @@
+# Security & credentials
+.env
+*.env
+cookies.txt
+*apikey*
+*.key
+*.pem
+
+# Dependencies
+node_modules/
+
+# Python bytecode & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Large neural representations & batch embeddings (~19.4 GB)
+bindpred/representations/
+
+# High-dimensional PAE error matrices (~3.2 GB)
+structures/pae/
+
+# Bulk biological databases & raw dumps (>100MB per file)
+data/pfam/
+data/raw/
+data/mappie/
+data/targets/raw/
+
+# Screening batch intermediate chunks & heavy track tables (>50MB)
+data/screening/single_variant_batches/
+data/screening/avi_batches/
+data/screening/*significant_tracks.parquet
+
+# Literature PDFs & heavy supplementary spreadsheets
+literature/*.pdf
+literature/supplementary/
+
+# External cloned repositories
+mappie/
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
