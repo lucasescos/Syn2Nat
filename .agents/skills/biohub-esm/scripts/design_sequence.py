@@ -32,15 +32,18 @@ def load_env_file(filepath: Path) -> dict:
 
 
 def get_api_key() -> str:
-    key = os.environ.get("ESM_API_KEY")
-    if key and key.strip():
-        return key.strip()
+    for var in ["ESM_API_KEY", "ESM_API_KEY_ALT"]:
+        key = os.environ.get(var)
+        if key and key.strip():
+            return key.strip()
     for p in [Path.cwd() / ".env", Path.home() / ".env"]:
         vars_map = load_env_file(p)
-        if "ESM_API_KEY" in vars_map and vars_map["ESM_API_KEY"]:
-            return vars_map["ESM_API_KEY"]
-    print("[ERROR] ESM_API_KEY not found in environment, .env, or ~/.env", file=sys.stderr)
+        for var in ["ESM_API_KEY", "ESM_API_KEY_ALT"]:
+            if var in vars_map and vars_map[var]:
+                return vars_map[var]
+    print("[ERROR] ESM_API_KEY / ESM_API_KEY_ALT not found in environment, .env, or ~/.env", file=sys.stderr)
     sys.exit(1)
+
 
 
 def main():

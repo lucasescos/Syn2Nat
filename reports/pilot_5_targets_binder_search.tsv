@@ -1,0 +1,26 @@
+target_gene	target_uniprot	target_name	pocket_start	pocket_end	pocket_description	pocket_sequence	designed_binder_sequence	hit_rank	microprotein_id	microprotein_gene	microprotein_length	cosine_similarity
+SNX11	Q9Y5W9	Sorting nexin-11	80	105	PX domain peptide/phosphoinositide binding groove	ELPGKSTFFGTSDEFIEKRRQGLQH	YRKKLEEKLKELEKKIEELDKEIEELEKKK	1	c7norep54	HOXA11-AS	20	0.7932
+SNX11	Q9Y5W9	Sorting nexin-11	80	105	PX domain peptide/phosphoinositide binding groove	ELPGKSTFFGTSDEFIEKRRQGLQH	YRKKLEEKLKELEKKIEELDKEIEELEKKK	2	c11riboseqorf86	MALAT1	52	0.7577
+SNX11	Q9Y5W9	Sorting nexin-11	80	105	PX domain peptide/phosphoinositide binding groove	ELPGKSTFFGTSDEFIEKRRQGLQH	YRKKLEEKLKELEKKIEELDKEIEELEKKK	3	c6riboseqorf8	SMIM13	198	0.7464
+SNX11	Q9Y5W9	Sorting nexin-11	80	105	PX domain peptide/phosphoinositide binding groove	ELPGKSTFFGTSDEFIEKRRQGLQH	YRKKLEEKLKELEKKIEELDKEIEELEKKK	4	c1riboseqorf157	WARS2-AS1	27	0.7456
+SNX11	Q9Y5W9	Sorting nexin-11	80	105	PX domain peptide/phosphoinositide binding groove	ELPGKSTFFGTSDEFIEKRRQGLQH	YRKKLEEKLKELEKKIEELDKEIEELEKKK	5	c11riboseqorf108	AP001372.2	349	0.7412
+PSMA1	P25786	Proteasome subunit alpha type-1	60	85	20S proteasome alpha-ring subunit interface/gate	KKILHVDNHIGISIAGLTADARLLC	DRLREECQKYRFTYDEPITVERAAKLLADL	1	c2norep72	LINC01829	58	0.8122
+PSMA1	P25786	Proteasome subunit alpha type-1	60	85	20S proteasome alpha-ring subunit interface/gate	KKILHVDNHIGISIAGLTADARLLC	DRLREECQKYRFTYDEPITVERAAKLLADL	2	c3riboseqorf5	THUMPD3-AS1	58	0.8007
+PSMA1	P25786	Proteasome subunit alpha type-1	60	85	20S proteasome alpha-ring subunit interface/gate	KKILHVDNHIGISIAGLTADARLLC	DRLREECQKYRFTYDEPITVERAAKLLADL	3	c8riboseqorf76	OTUD6B-AS1	37	0.7986
+PSMA1	P25786	Proteasome subunit alpha type-1	60	85	20S proteasome alpha-ring subunit interface/gate	KKILHVDNHIGISIAGLTADARLLC	DRLREECQKYRFTYDEPITVERAAKLLADL	4	c11riboseqorf112	EMSY	91	0.7976
+PSMA1	P25786	Proteasome subunit alpha type-1	60	85	20S proteasome alpha-ring subunit interface/gate	KKILHVDNHIGISIAGLTADARLLC	DRLREECQKYRFTYDEPITVERAAKLLADL	5	c19norep207	CARD8-AS1	46	0.7658
+RPRD1A	Q96P16	Regulation of nuclear pre-mRNA domain-containing protein 1A	20	45	CID (CTD-interacting domain) binding cleft	QSVQTLSLWLIHHRKHSRPIVTVWE	QLLLLLLLLLLLLLLLLLLLLLLLLLLLLL	1	cXnorep101	LINC00632	73	0.8073
+RPRD1A	Q96P16	Regulation of nuclear pre-mRNA domain-containing protein 1A	20	45	CID (CTD-interacting domain) binding cleft	QSVQTLSLWLIHHRKHSRPIVTVWE	QLLLLLLLLLLLLLLLLLLLLLLLLLLLLL	2	c10norep155	ADD3	17	0.8044
+RPRD1A	Q96P16	Regulation of nuclear pre-mRNA domain-containing protein 1A	20	45	CID (CTD-interacting domain) binding cleft	QSVQTLSLWLIHHRKHSRPIVTVWE	QLLLLLLLLLLLLLLLLLLLLLLLLLLLLL	3	c11norep10	AC132217.2	113	0.7998
+RPRD1A	Q96P16	Regulation of nuclear pre-mRNA domain-containing protein 1A	20	45	CID (CTD-interacting domain) binding cleft	QSVQTLSLWLIHHRKHSRPIVTVWE	QLLLLLLLLLLLLLLLLLLLLLLLLLLLLL	4	c7norep241	LINC00689	83	0.785
+RPRD1A	Q96P16	Regulation of nuclear pre-mRNA domain-containing protein 1A	20	45	CID (CTD-interacting domain) binding cleft	QSVQTLSLWLIHHRKHSRPIVTVWE	QLLLLLLLLLLLLLLLLLLLLLLLLLLLLL	5	c11norep9	AC132217.2	123	0.782
+CIB2	O75838	Calcium and integrin-binding family member 2	50	75	EF-hand target engagement hydrophobic groove	IVHVPMSLIIQMPELRENPFKERIV	EEMIKEVDKNGDGKISVEEFKEAMKKLGKK	1	c11riboseqorf108	AP001372.2	349	0.851
+CIB2	O75838	Calcium and integrin-binding family member 2	50	75	EF-hand target engagement hydrophobic groove	IVHVPMSLIIQMPELRENPFKERIV	EEMIKEVDKNGDGKISVEEFKEAMKKLGKK	2	c6riboseqorf8	SMIM13	198	0.8367
+CIB2	O75838	Calcium and integrin-binding family member 2	50	75	EF-hand target engagement hydrophobic groove	IVHVPMSLIIQMPELRENPFKERIV	EEMIKEVDKNGDGKISVEEFKEAMKKLGKK	3	c17norep138	PTRH2	207	0.8276
+CIB2	O75838	Calcium and integrin-binding family member 2	50	75	EF-hand target engagement hydrophobic groove	IVHVPMSLIIQMPELRENPFKERIV	EEMIKEVDKNGDGKISVEEFKEAMKKLGKK	4	c1riboseqorf123	MTF2	18	0.8181
+CIB2	O75838	Calcium and integrin-binding family member 2	50	75	EF-hand target engagement hydrophobic groove	IVHVPMSLIIQMPELRENPFKERIV	EEMIKEVDKNGDGKISVEEFKEAMKKLGKK	5	c10riboseqorf23	WAC-AS1	19	0.8176
+THAP2	Q9H0W7	THAP domain-containing protein 2	30	55	THAP zinc-coordinating / protein-docking motif	RRKEWVRLVRRKNFVPGKHTFLCSK	HFEPSCFTEDGLRLRPDAVPTIFPGLLKKK	1	c7riboseqorf56	TPST1	39	0.8951
+THAP2	Q9H0W7	THAP domain-containing protein 2	30	55	THAP zinc-coordinating / protein-docking motif	RRKEWVRLVRRKNFVPGKHTFLCSK	HFEPSCFTEDGLRLRPDAVPTIFPGLLKKK	2	c19riboseqorf39	SMIM7	60	0.8904
+THAP2	Q9H0W7	THAP domain-containing protein 2	30	55	THAP zinc-coordinating / protein-docking motif	RRKEWVRLVRRKNFVPGKHTFLCSK	HFEPSCFTEDGLRLRPDAVPTIFPGLLKKK	3	c7riboseqorf78	MTERF1	46	0.8866
+THAP2	Q9H0W7	THAP domain-containing protein 2	30	55	THAP zinc-coordinating / protein-docking motif	RRKEWVRLVRRKNFVPGKHTFLCSK	HFEPSCFTEDGLRLRPDAVPTIFPGLLKKK	4	c16norep27	RBFOX1	34	0.8857
+THAP2	Q9H0W7	THAP domain-containing protein 2	30	55	THAP zinc-coordinating / protein-docking motif	RRKEWVRLVRRKNFVPGKHTFLCSK	HFEPSCFTEDGLRLRPDAVPTIFPGLLKKK	5	c4norep182	LINC01179	40	0.8832

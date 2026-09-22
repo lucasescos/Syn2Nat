@@ -28,6 +28,7 @@ if sys.platform == "win32":
         pass
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT_DIR))
 HMPA_DIR = ROOT_DIR / "bindpred" / "representations" / "hmpa"
 BATCHES_DIR = HMPA_DIR / "batches"
 STATUS_FILE = HMPA_DIR / "status.json"
@@ -37,7 +38,7 @@ TOTAL_CATALOG = 617463
 def parse_args():
     parser = argparse.ArgumentParser(description="Supervisor Daemon for HMPA Representation Extraction.")
     parser.add_argument("--chunk-size", type=int, default=500, help="Number of microproteins per cycle (default: 500)")
-    parser.add_argument("--workers", type=int, default=8, help="Concurrent API workers (default: 8)")
+    parser.add_argument("--workers", type=int, default=16, help="Concurrent API workers (default: 16)")
     parser.add_argument("--batch-size", type=int, default=100, help="Batch size per checkpoint file (default: 100)")
     parser.add_argument("--max-retries", type=int, default=50, help="Max consecutive failure retries before pausing")
     return parser.parse_args()
@@ -73,12 +74,16 @@ def format_duration(seconds: float) -> str:
 
 def main():
     args = parse_args()
+    from bindpred.esmc_client import get_api_keys
+    configured_keys = get_api_keys()
+
     print("=" * 80)
     print("[*] HMPA Microprotein Representation Supervisor Daemon")
     print(f"Total Target Catalog : {TOTAL_CATALOG:,} microproteins")
     print(f"Cycle Chunk Size     : {args.chunk_size} sequences/cycle")
     print(f"Concurrency Workers  : {args.workers} threads")
     print(f"Checkpoint Batch Size: {args.batch_size} sequences/file")
+    print(f"Configured API Keys  : {len(configured_keys)} key(s) detected {[f'...{k[-6:]}' for k in configured_keys]}")
     print(f"Output Directory     : {HMPA_DIR}")
     print("=" * 80)
 
@@ -127,6 +132,20 @@ def main():
                 consecutive_failures = 0
                 cycle_num += 1
                 time.sleep(1)  # Brief pause between healthy cycles
+            elif res.returncode == 3:
+                # All configured API keys exhausted daily credit limit
+                consecutive_failures = 0
+                now_utc = datetime.utcnow()
+                today_reset = now_utc.replace(hour=0, minute=2, second=0, microsecond=0)
+                reset_utc = today_reset if today_reset > now_utc else (today_reset + timedelta(days=1))
+                wait_sec = max(int((reset_utc - now_utc).total_seconds()), 300)
+                print("\n" + "!" * 80)
+                print(f"[PAUSE] All Biohub API keys have exhausted daily credit limits.")
+                print(f"[PAUSE] Quota refreshes daily at 00:00 UTC.")
+                print(f"[PAUSE] Sleeping for {format_duration(wait_sec)} until {reset_utc.strftime('%Y-%m-%d %H:%M:%S UTC')}...")
+                print("!" * 80 + "\n")
+                time.sleep(wait_sec)
+                cycle_num += 1
             else:
                 consecutive_failures += 1
                 backoff = min(15 * (2 ** (consecutive_failures - 1)), 300)

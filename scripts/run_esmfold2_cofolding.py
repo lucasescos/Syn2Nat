@@ -27,11 +27,12 @@ except ImportError as e:
     sys.exit(1)
 
 
-def load_api_key() -> str:
-    """Retrieve ESM_API_KEY from environment or .env files."""
-    key = os.environ.get("ESM_API_KEY")
-    if key and key.strip():
-        return key.strip()
+def load_api_keys() -> list[str]:
+    """Retrieve all configured ESM API keys (primary, alt, and numbered) from environment or .env files."""
+    keys = []
+    for var, val in os.environ.items():
+        if var.startswith("ESM_API_KEY") and val.strip() and val.strip() not in keys:
+            keys.append(val.strip())
 
     for p in [Path.cwd() / ".env", Path.home() / ".env"]:
         if p.is_file():
@@ -39,15 +40,49 @@ def load_api_key() -> str:
                 with open(p, "r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
-                        if line.startswith("ESM_API_KEY="):
-                            val = line.split("=", 1)[1].strip().strip("\"'")
-                            if val:
-                                return val
+                        if line.startswith("#") or "=" not in line:
+                            continue
+                        var, val = line.split("=", 1)
+                        var = var.strip()
+                        val = val.strip().strip("\"'")
+                        if var.startswith("ESM_API_KEY") and val and val not in keys:
+                            keys.append(val)
             except Exception:
                 pass
+    return keys
 
-    print("[ERROR] ESM_API_KEY not found in environment, .env, or ~/.env", file=sys.stderr)
+
+def load_api_key() -> str:
+    """Retrieve primary or alternative ESM API key."""
+    keys = load_api_keys()
+    if keys:
+        return keys[0]
+    print("[ERROR] Neither ESM_API_KEY nor ESM_API_KEY_ALT found in environment, .env, or ~/.env", file=sys.stderr)
     sys.exit(1)
+
+
+class RotatingESMClient:
+    """Multi-key client with automatic rotation when rate limits or quotas are hit."""
+    def __init__(self, model: str, tokens: list[str]):
+        self.model = model
+        self.tokens = tokens
+        self.current_idx = 0
+        self.clients = [
+            SequenceStructureForgeInferenceClient(model=model, token=t)
+            for t in tokens
+        ]
+
+    @property
+    def current_client(self):
+        return self.clients[self.current_idx]
+
+    def rotate(self):
+        if len(self.clients) > 1:
+            self.current_idx = (self.current_idx + 1) % len(self.clients)
+            print(f"\n    [KEY ROTATION] Biohub API quota/rate limit reached. Switched to key #{self.current_idx + 1}/{len(self.clients)}", file=sys.stderr)
+
+    def fold_all_atom(self, *args, **kwargs):
+        return self.current_client.fold_all_atom(*args, **kwargs)
 
 
 def load_checkpoint(state_file: Path) -> dict:
@@ -75,14 +110,19 @@ def save_checkpoint_record(state_file: Path, record: dict):
         f.write(json.dumps(record) + "\n")
 
 
-def fold_complex_with_retry(client, spi, config, max_retries=3, base_backoff=3.0):
-    """Execute fold_all_atom with exponential backoff on transient errors."""
+def fold_complex_with_retry(client, spi, config, max_retries=4, base_backoff=3.0):
+    """Execute fold_all_atom with exponential backoff and automatic key rotation on rate limits."""
     for attempt in range(1, max_retries + 1):
         try:
             res = client.fold_all_atom(spi, config=config)
             if isinstance(res, ESMProteinError):
                 if res.error_code == 422:
                     raise ValueError(f"ESMProteinError [422]: {res.error_msg}")
+                if res.error_code in (429, 403) or "quota" in str(res.error_msg).lower() or "rate" in str(res.error_msg).lower():
+                    if hasattr(client, "rotate"):
+                        client.rotate()
+                        time.sleep(1.0)
+                        continue
                 raise RuntimeError(f"ESMProteinError [{res.error_code}]: {res.error_msg}")
             return res
         except ValueError as e:
@@ -92,11 +132,17 @@ def fold_complex_with_retry(client, spi, config, max_retries=3, base_backoff=3.0
             err_str = str(e)
             if "422" in err_str or "exceeds maximum allowed" in err_str:
                 raise ValueError(err_str)
+            if "429" in err_str or "quota" in err_str.lower() or "rate limit" in err_str.lower() or "403" in err_str:
+                if hasattr(client, "rotate"):
+                    client.rotate()
+                    time.sleep(1.0)
+                    continue
             if attempt == max_retries:
                 raise e
             wait_time = base_backoff * (2 ** (attempt - 1))
             print(f"    [WARN] Attempt {attempt} failed: {err_str[:120]}... Backing off {wait_time:.1f}s")
             time.sleep(wait_time)
+
 
 
 def sync_summary_tables(candidates_df: pd.DataFrame, state_file: Path, out_parquet: Path, out_tsv: Path):
@@ -138,7 +184,10 @@ def main():
     parser.add_argument("--include-pae", action="store_true", default=True, help="Include PAE matrix")
 
     args = parser.parse_args()
-    api_key = load_api_key()
+    api_keys = load_api_keys()
+    if not api_keys:
+        print("[ERROR] Neither ESM_API_KEY nor ESM_API_KEY_ALT found in environment, .env, or ~/.env", file=sys.stderr)
+        sys.exit(1)
 
     base_dir = Path.cwd()
     if args.input_file:
@@ -197,7 +246,7 @@ def main():
     completed_map = load_checkpoint(state_file)
     print(f"Already in Ledger: {len(completed_map)} complexes")
 
-    client = SequenceStructureForgeInferenceClient(model=args.model, token=api_key)
+    client = RotatingESMClient(model=args.model, tokens=api_keys)
     folding_config = FoldingConfig(
         num_loops=args.num_loops,
         num_sampling_steps=args.num_steps,

@@ -14,6 +14,14 @@
 > ### 🎯 Core Project Vision & Strategic Architecture Directive
 > - **Status of Multi-Omics & Hitchhiking Analysis**: The prior genomic selection analysis (AlphaGenome AVI Phred scoring) and hitchhiking de-confounding were **exploratory analyses**.
 > - **Core Objective**: Gather a massive, diverse collection of human microproteins (expanding from 7,264 to **617,462 candidates** via the Human Microprotein Atlas / HMPA), systematically extract deep protein language model representations (e.g. Biohub ESMC 6B penultimate layer 79 embeddings [2560] sequence-level and [L, 2560] per-residue), and persist them into an atlas.
+> - **`Syn2Nat`: Inverted De Novo Binder Search Strategy (Escaping the $\mathcal{O}(N \times M)$ Bottleneck)**:
+>   - **Concept**: **Syn2Nat** (*Synthetic-to-Natural Latent Retrieval*) bridges generative binder design and endogenous interactome deorphanization.
+>   - **Target Prioritization**: Prioritize high-value human targets from the **AlphaGenome Top 1,000 list** (purifying selection, regulatory impact, disease relevance).
+>   - **De Novo Binder Generation**: Use the Biohub ESMFold2 gradient-guided design loop (`binder_design.py`) to generate unconstrained *de novo* binders for prioritized targets.
+>   - **Biological Honesty (No Artificial Length Forcing)**: Binder length and scaffold architecture emerge naturally from target epitope biophysics and are **never** artificially forced to match microprotein length distributions.
+>   - **ESMC Latent Space & Multi-Modal Sequence Search ("Computationally Free" Space)**: Project binders into ESMC latent space and perform rapid vector similarity matching against the microprotein atlas. Concurrently evaluate primary sequence alignment, functional motifs, physicochemical traits, and known reference interaction sequences. Because sequence and vector operations are purely analytical linear algebra / data analysis, extensive sweeps and iterative filtering can be executed at virtually zero computational cost.
+>   - **Targeted Structural Validation**: Perform high-resolution ESMFold2 binary complex cofolding ($\text{ipTM}$, PAE) exclusively on the top filtered microprotein candidates per target.
+>   - Detailed architectural documentation is preserved at [`docs/latent_space_binder_matching_methodology.md`](docs/latent_space_binder_matching_methodology.md).
 > - **Quota-Aware Cadence**: Because ESM/ESMC API access operates under daily quota limits, representation extraction is designed to run in automated daily batches.
 > - **Architecture Decoupling**: Representation accumulation is decoupled from downstream architecture design. Once a critical mass of microprotein embeddings is secured, optimal downstream neural architectures (for binding prediction, functional clustering, or de novo design) will be constructed.
 

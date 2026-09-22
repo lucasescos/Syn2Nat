@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT_DIR))
 
 from esm.sdk import esmc_client
 from esm.sdk.api import ESMProtein, LogitsConfig
-from bindpred.esmc_client import get_api_key
+from bindpred.esmc_client import get_api_key, get_api_keys
 
 
 def parse_args():
@@ -84,20 +84,67 @@ class RepresentationExtractor:
         self.model_name = model_name
         self.layer = layer
         self.workers = workers
-        self.token = get_api_key()
+        self.tokens = get_api_keys()
+        if not self.tokens:
+            raise ValueError("No Biohub API keys found in environment or .env files.")
+        self.exhausted_tokens = set()
+        self._thread_counter = 0
+        self._lock = threading.Lock()
         self._local = threading.local()
+        print(f"[*] Initialized RepresentationExtractor with {len(self.tokens)} configured API key(s).")
 
-    def _get_client(self):
-        if not hasattr(self._local, "client"):
-            self._local.client = esmc_client(
-                model=self.model_name,
-                url="https://biohub.ai",
-                token=self.token,
-                request_timeout=25.0,
-            )
-        return self._local.client
+    def _get_active_tokens(self) -> List[str]:
+        return [t for t in self.tokens if t not in self.exhausted_tokens]
 
-    def extract_single(self, target: Dict[str, Any], max_retries: int = 3) -> Optional[Dict[str, Any]]:
+    def _mark_token_exhausted(self, token: str):
+        with self._lock:
+            if token not in self.exhausted_tokens:
+                self.exhausted_tokens.add(token)
+                active = self._get_active_tokens()
+                masked = f"...{token[-6:]}" if len(token) >= 6 else "***"
+                print(
+                    f"\n[KEY EXHAUSTED] Biohub API Key ({masked}) hit daily credit limit. Blacklisted from pool. ({len(active)} active keys remaining)",
+                    file=sys.stderr,
+                )
+                if not active:
+                    print("\n[CRITICAL] All configured Biohub API keys have exceeded daily credit quotas!", file=sys.stderr)
+
+    def _get_client_and_token(self) -> Tuple[Any, str]:
+        with self._lock:
+            active = self._get_active_tokens()
+            if not active:
+                raise RuntimeError("All Biohub API keys exhausted daily credit limit.")
+            cur_token = getattr(self._local, "client_token", None)
+            if cur_token not in active:
+                self._thread_counter += 1
+                assigned_token = active[self._thread_counter % len(active)]
+                self._local.client = esmc_client(
+                    model=self.model_name,
+                    url="https://biohub.ai",
+                    token=assigned_token,
+                    request_timeout=25.0,
+                )
+                self._local.client_token = assigned_token
+
+        return self._local.client, self._local.client_token
+
+    def _rotate_thread_client(self, failed_token: Optional[str] = None):
+        with self._lock:
+            active = self._get_active_tokens()
+            if not active:
+                raise RuntimeError("All Biohub API keys exhausted daily credit limit.")
+            other_active = [t for t in active if t != failed_token]
+            next_token = other_active[0] if other_active else active[0]
+
+        self._local.client = esmc_client(
+            model=self.model_name,
+            url="https://biohub.ai",
+            token=next_token,
+            request_timeout=25.0,
+        )
+        self._local.client_token = next_token
+
+    def extract_single(self, target: Dict[str, Any], max_retries: int = 4) -> Optional[Dict[str, Any]]:
         """Extract both per-residue and sequence-level vectors for a single target."""
         target_id = target["id"]
         full_seq = "".join(target["sequence"].split()).upper()
@@ -109,8 +156,9 @@ class RepresentationExtractor:
         seq = full_seq[:2048]  # ESMC context window cap
 
         for attempt in range(1, max_retries + 1):
+            token = None
             try:
-                client = self._get_client()
+                client, token = self._get_client_and_token()
                 protein = ESMProtein(sequence=seq)
                 tensor_input = client.encode(protein)
                 config = LogitsConfig(
@@ -143,15 +191,36 @@ class RepresentationExtractor:
                     "residue_matrix": residue_matrix,
                 }
             except Exception as e:
+                err_str = str(e)
                 # Reset cached client on error to ensure a clean new connection on retry
                 if hasattr(self._local, "client"):
                     del self._local.client
+                if hasattr(self._local, "client_token"):
+                    del self._local.client_token
+
+                # Check if key exceeded daily credit limit
+                if any(x in err_str.lower() for x in ["daily credit limit", "credit limit", "exceeded your daily credit"]):
+                    if token:
+                        self._mark_token_exhausted(token)
+                    if not self._get_active_tokens():
+                        raise RuntimeError("All Biohub API keys have exhausted their daily credit quota.")
+                    time.sleep(1.0)
+                    continue
+
+                # Check if transient rate limited or general 429/quota error, rotate token
+                if "429" in err_str or "quota" in err_str.lower() or "rate" in err_str.lower() or "403" in err_str:
+                    self._rotate_thread_client(failed_token=token)
+                    time.sleep(1.0 + (attempt * 0.5))
+                    continue
+
                 if attempt == max_retries:
                     print(f"\n[ERROR] Failed target {target_id} after {max_retries} attempts: {e}", file=sys.stderr)
                     return None
                 time.sleep(attempt * 2)
 
         return None
+
+
 
 
 def load_dataset(dataset_type: str, limit: Optional[int] = None) -> List[Dict[str, Any]]:
@@ -265,15 +334,28 @@ def main():
         b_t0 = time.time()
 
         batch_results = []
+        all_exhausted = False
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = {
                 executor.submit(extractor.extract_single, t): t["id"]
                 for t in batch_targets
             }
             for future in concurrent.futures.as_completed(futures):
-                res = future.result()
-                if res is not None:
-                    batch_results.append(res)
+                try:
+                    res = future.result()
+                    if res is not None:
+                        batch_results.append(res)
+                except RuntimeError as re:
+                    if "exhausted" in str(re).lower():
+                        print(f"\n[STOP] Halting batch: {re}", file=sys.stderr)
+                        all_exhausted = True
+                        for f in futures:
+                            f.cancel()
+                        break
+                    print(f"\n[ERROR] Worker exception: {re}", file=sys.stderr)
+                except Exception as ex:
+                    print(f"\n[ERROR] Worker exception: {ex}", file=sys.stderr)
+
                 processed_count += 1
                 if processed_count % 10 == 0 or processed_count == total_to_process:
                     elapsed = time.time() - start_time
@@ -287,6 +369,9 @@ def main():
                     )
 
         if not batch_results:
+            if all_exhausted:
+                print("\n[STOP] All configured API keys are exhausted for today.", file=sys.stderr)
+                sys.exit(3)
             print(f"\n[WARN] No successful results for Batch {batch_idx:04d}")
             continue
 
@@ -331,6 +416,10 @@ def main():
                 json.dump(status_data, sf, indent=2)
         except Exception:
             pass
+
+        if all_exhausted:
+            print("\n[STOP] All configured API keys are exhausted for today. Saved current batch before exit.", file=sys.stderr)
+            sys.exit(3)
 
     total_time = time.time() - start_time
     print("\n" + "=" * 80)

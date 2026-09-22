@@ -18,11 +18,16 @@ __pycache__/
 venv/
 ENV/
 
-# Large neural representations & batch embeddings (~19.4 GB)
+# Large neural representations & local caches (~49 GB)
 bindpred/representations/
+data/cache/
 
-# High-dimensional PAE error matrices (~3.2 GB)
+# 3D Structure coordinates, PAE error matrices & run ledgers (~8 GB)
+structures/pdbs/
 structures/pae/
+structures/pilot_*/
+structures/cofolding_state.jsonl
+*.pdb
 
 # Bulk biological databases & raw dumps (>100MB per file)
 data/pfam/
@@ -30,9 +35,9 @@ data/raw/
 data/mappie/
 data/targets/raw/
 
-# Screening batch intermediate chunks & heavy track tables (>50MB)
-data/screening/single_variant_batches/
-data/screening/avi_batches/
+# Screening batch intermediate chunks & heavy track tables
+data/screening/*batches/
+data/screening/*status.json
 data/screening/*significant_tracks.parquet
 
 # Literature PDFs & heavy supplementary spreadsheets
@@ -42,7 +47,12 @@ literature/supplementary/
 # External cloned repositories
 mappie/
 
-# Operating system artifacts
+# High-count interface contacts & rendering scripts (summaries preserved in reports/)
+reports/interfaces/
+
+# Operating system artifacts & editor caches
 .DS_Store
 Thumbs.db
 desktop.ini
+*.tmp
+*.log

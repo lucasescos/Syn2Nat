@@ -38,17 +38,32 @@ def load_env_file(filepath: Path) -> dict:
     return env_vars
 
 
-def get_api_key() -> str:
-    key = os.environ.get("ESM_API_KEY")
-    if key and key.strip():
-        return key.strip()
+def get_api_keys() -> list[str]:
+    """Return all configured Biohub API keys (ESM_API_KEY, ESM_API_KEY_ALT, ESM_API_KEY_3, etc.)."""
+    keys = []
+    # 1. Environment variables
+    for k, v in os.environ.items():
+        if k.startswith("ESM_API_KEY") and v.strip() and v.strip() not in keys:
+            keys.append(v.strip())
 
+    # 2. .env files (workspace root and user home)
     for p in [Path.cwd() / ".env", Path.home() / ".env"]:
         vars_map = load_env_file(p)
-        if "ESM_API_KEY" in vars_map and vars_map["ESM_API_KEY"]:
-            return vars_map["ESM_API_KEY"]
+        for k, v in vars_map.items():
+            if k.startswith("ESM_API_KEY") and v.strip() and v.strip() not in keys:
+                keys.append(v.strip())
+    return keys
 
-    raise ValueError("ESM_API_KEY not found in environment, .env, or ~/.env")
+
+def get_api_key(prefer_alt: bool = False) -> str:
+    """Return an active API key, optionally preferring alternative keys."""
+    keys = get_api_keys()
+    if not keys:
+        raise ValueError("No Biohub ESM API keys (ESM_API_KEY*) found in environment, .env, or ~/.env")
+    if prefer_alt and len(keys) > 1:
+        return keys[1]
+    return keys[0]
+
 
 
 class ESMCClient:

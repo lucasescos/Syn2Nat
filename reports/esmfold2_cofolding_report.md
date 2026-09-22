@@ -1,5 +1,11 @@
 # High-Throughput Biohub ESMFold2 Cofolding Report: 500 Microprotein–Partner Complexes
 
+> [!NOTE]
+> **Status: Phase 1 Intermediate Report (Superseded by Master Structural Atlas)**  
+> This report documents the initial Phase 1 execution (345 successfully folded complexes, 155 context-filtered).  
+> **Authoritative Full Atlas**: All 155 size-limited candidate pairs were subsequently remediated and folded alongside 61 additional Tier 1 peptideins, producing the final **805-complex dataset (100% complete Top 50 coverage)**.  
+> 👉 See [**`reports/expanded_ppi_atlas_report.md`**](expanded_ppi_atlas_report.md) for the authoritative master atlas.
+
 **Target Prediction Engine**: Biohub ESMFold2 `fold_all_atom` (`https://biohub.ai/api/v1/fold_all_atom`, model: `esmfold2-fast-2026-05`)  
 **Pipeline Execution Mode**: High-Throughput Batch Inference with Persistent JSONL Checkpointing & Exponential Backoff  
 **Evaluation Scope**: 500 Candidate Complexes (Curated Top 50 Microproteins $\times$ Top 10 Prioritized Binding Partners)  

@@ -1,8 +1,9 @@
 # Paperclip Agent Architecture & Virtual Lab Framework
 
-## Project Status: Exploratory Phase
-> **Current Phase**: Information & Tooling Aggregation  
-> **Status**: Non-finalized / exploratory. Specific hypotheses, candidate filters, and experimental targets are not yet locked in. The project is currently gathering tools, datasets, analytical frameworks, and technical documentation.
+## Project Governance & Orchestration Status
+> **Operational Status**: Active Multi-Agent Virtual Lab  
+> **Active Research Mission**: Scaling microprotein representation extraction (HMPA 617k smORFs via ESMC 6B) and unsupervised PPI latent deorphanization via MAPPIE.  
+> **Completed Milestones**: Catalog curation (7,264 smORFs), 2.9M SNV purifying selection screening (hitchhiking confounder resolved), Top 50 portfolio mapping, and the 805-complex Master Structural Atlas (ESMFold2).
 
 ---
 

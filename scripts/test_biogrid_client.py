@@ -76,6 +76,27 @@ class TestBioGridClient(unittest.TestCase):
         self.assertEqual(params["includeInteractors"], "false")
         self.assertEqual(params["geneList"], "TP53|MDM2|CDKN1A")
 
+    def test_live_api_queries(self):
+        """Live smoke test against BioGRID webservice if key is available in environment."""
+        client = BioGridClient()
+        if not client.access_key:
+            self.skipTest("No BIOGRID_ACCESS_KEY found; skipping live query test.")
+        
+        # Test version endpoint
+        version = client.get_version()
+        self.assertTrue(len(version) > 0)
+        print(f"\n[LIVE TEST] BioGRID REST version: {version}")
+
+        # Test count endpoint
+        count = client.count(genes="TP53", tax_id=9606)
+        self.assertGreater(count, 100)
+        print(f"[LIVE TEST] TP53 total interactions: {count}")
+
+        # Test pairwise query
+        hits = client.query_pair("TP53", "MDM2", tax_id=9606, exp_type="physical")
+        self.assertGreater(len(hits), 0)
+        print(f"[LIVE TEST] TP53 - MDM2 physical interactions count: {len(hits)}")
+
 
 if __name__ == "__main__":
     unittest.main()
