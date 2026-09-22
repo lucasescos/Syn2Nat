@@ -21,53 +21,42 @@
 ## 🧭 Repository Navigation
 
 ```
-microproteinproject/
-├── PROJECT_MASTER_DOCUMENT.md             # Authoritative scientific monolith (all phases, proofs & metrics)
-├── README.md                              # This repository portal
+Syn2Nat/
+├── README.md                              # Repository portal & quickstart
+├── PROJECT_MASTER_DOCUMENT.md             # Authoritative scientific & architectural monograph
 │
-├── reports/                               # Active Syn2Nat benchmarks, target prioritization & interface atlas
-│   ├── README.md                          # Syn2Nat benchmark & reports portal
-│   ├── canonical_proteome_alphagenome_top1000.parquet # AlphaGenome Top 1,000 prioritized human targets
-│   ├── interface_site_characterization_report.md # Master interface & active site mechanism report (1,812 complexes)
-│   ├── pilot_5_targets_binder_search.parquet # Pilot binder search benchmarks
-│   ├── reverse_binder_lookup_15_targets.parquet # 15-target reverse binder matching benchmark
-│   └── authentic_pockets_benchmark_results.parquet # Authentic pocket validation benchmark
+├── notebooks/                             # Interactive GPU workflows
+│   └── syn2nat_colab.ipynb                # End-to-end Google Colab binder generation & retrieval pipeline
 │
-├── docs/                                  # Technical specifications, methods & API manuals
+├── bindpred/                              # ESMC representation extraction engine
+│   ├── esmc_client.py                     # Biohub ESMC 6B/600M inference client
+│   └── extract_representations.py         # Batch extraction of sequence vectors & residue matrices
+│
+├── scripts/                               # Executable clients and pipeline scripts
+│   ├── run_5_targets_pilot.py             # Pilot binder retrieval execution
+│   ├── run_15_targets_benchmark.py        # 15-target reverse lookup benchmark
+│   ├── annotate_interface_sites.py        # Contact chemistry, active site proximity & ΔSASA extraction
+│   └── ...                                # Interactome & foundation model clients
+│
+├── docs/                                  # Technical specifications & API manuals
 │   ├── README.md                          # Documentation index and domain taxonomy
 │   ├── latent_space_binder_matching_methodology.md # Syn2Nat methodology specification
-│   ├── mappie.md                          # MAPPIE 128-d latent space & functional discovery guide
-│   ├── representation_pipeline_roadmap.md # Large-scale representation engine roadmap (HMPA 617k)
-│   ├── ppi_evaluation_hierarchy.md        # 4-pillar biophysical evaluation framework
-│   ├── esmfold2_latent_interface_screening.md # ESMC 6B latent interface screening architecture
-│   ├── hippie.md, biogrid.md, intact.md, string.md, pepbind.md # Canonical interactome guides
 │   ├── biohub.md                          # Biohub ESM / ESMFold2 platform documentation
-│   └── alphagenome/                       # DeepMind AlphaGenome multimodal DNA model guide
+│   ├── alphagenome/                       # DeepMind AlphaGenome multimodal DNA model guide
+│   └── ...                                # Scored interactome reference guides
 │
-├── bindpred/                              # Active ESMC 6B representation extraction engine
-│   ├── extract_representations.py         # Batch extraction of layer 79 sequence & residue embeddings
-│   ├── esmc_client.py                     # Biohub ESMC API client
-│   └── representations/                   # Checkpointed Parquet & NPZ representation archives
+├── reports/                               # Active Syn2Nat benchmarks & reports
+│   ├── README.md                          # Syn2Nat benchmark & reports portal
+│   ├── interface_site_characterization_report.md # Master interface & active site mechanism report
+│   ├── canonical_proteome_alphagenome_top1000.* # AlphaGenome Top 1,000 prioritized human targets
+│   ├── pilot_5_targets_binder_search.*    # Pilot binder search benchmarks
+│   ├── reverse_binder_lookup_15_targets.* # 15-target reverse binder matching benchmark
+│   └── authentic_pockets_benchmark_results.* # Authentic pocket validation benchmark
 │
-├── mappie/                                # Cloned MAPPIE core framework (Uni Mainz CBDM)
-│   ├── core_algorithm/                    # Latent projection & hypergeometric enrichment scripts
-│   └── data_processed/                    # Preprocessed runtime indices
-│
-├── data/                                  # Project datasets & reference interactome indices
-│   ├── mappie/                            # 199,138 reference PPI latent index (latent_index.npz)
-│   ├── parsed/                            # Parsed smORF catalogs (orfs.parquet, orf_tiers.parquet)
-│   ├── screening/                         # AlphaGenome AVI purifying selection scores
-│   └── targets/                           # Canonical human proteome (UP000005640)
-│
-├── structures/                            # Macromolecular structures (raw PDBs preserved locally, uncommitted)
-│   ├── pdbs/                              # Full-atom cofolded PDB files (local, ignored by git)
-│   └── pae/                               # Inter-chain PAE JSON matrices (local, ignored by git)
-│
-├── archive/                               # Safely preserved local archive of exploratory phase 1 reports
-├── notebooks/                             # Interactive Colab notebooks (syn2nat_colab.ipynb)
-├── scripts/                               # Executable clients and pipeline scripts
-├── plans/                                 # Multi-agent virtual lab protocols & Paperclip orchestration
-└── literature/                            # Published studies, preprints & supplementary data
+└── data/                                  # Reference catalogs & curated indices
+    ├── parsed/                            # Parsed smORF catalogs (orfs.parquet, orf_tiers.parquet)
+    ├── screening/                         # AlphaGenome AVI purifying selection scores
+    └── targets/                           # Canonical human proteome (UP000005640)
 ```
 
 ---

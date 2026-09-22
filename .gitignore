@@ -40,9 +40,11 @@ data/screening/*batches/
 data/screening/*status.json
 data/screening/*significant_tracks.parquet
 
-# Literature PDFs & heavy supplementary spreadsheets
-literature/*.pdf
-literature/supplementary/
+# Literature papers, PDFs & supplementary spreadsheets (local only)
+literature/
+
+# Internal orchestration & agent lab plans (local only)
+plans/
 
 # External cloned repositories
 mappie/
