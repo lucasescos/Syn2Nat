@@ -76,5 +76,5 @@ Each interactome database has a corresponding programmatic client located under 
 
 ## Archive & Reference Scrapes
 
-* [**`archive/alphagenome_exploratory_idea.md`**](archive/alphagenome_exploratory_idea.md): Historical scratchpad of the initial 3-step genomic screening proposal (completed and superseded by [`reports/microprotein_multiomics_analysis_report.md`](../reports/microprotein_multiomics_analysis_report.md)).
+* [**`archive/alphagenome_exploratory_idea.md`**](archive/alphagenome_exploratory_idea.md): Historical scratchpad of the initial 3-step genomic screening proposal (completed and archived under [`archive/exploratory_phase1/reports/`](../archive/exploratory_phase1/reports/)).
 * [**`hippie_reference/`**](hippie_reference/): Direct documentation and download specifications scraped from the HIPPIE web portal (`download.md`, `information.md`).

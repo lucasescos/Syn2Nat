@@ -50,6 +50,9 @@ mappie/
 # High-count interface contacts & rendering scripts (summaries preserved in reports/)
 reports/interfaces/
 
+# Archived exploratory files & local milestones
+archive/
+
 # Operating system artifacts & editor caches
 .DS_Store
 Thumbs.db

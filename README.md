@@ -25,13 +25,17 @@ microproteinproject/
 ├── PROJECT_MASTER_DOCUMENT.md             # Authoritative scientific monolith (all phases, proofs & metrics)
 ├── README.md                              # This repository portal
 │
-├── reports/                               # Empirical results, validation reports & structural atlas
-│   ├── README.md                          # Progressive report index (Reports 1 to 5)
-│   ├── master_microprotein_ppi_structural_atlas.parquet # Master database of 805 cofolded complexes
-│   └── ...                                # Individual markdown milestone reports
+├── reports/                               # Active Syn2Nat benchmarks, target prioritization & interface atlas
+│   ├── README.md                          # Syn2Nat benchmark & reports portal
+│   ├── canonical_proteome_alphagenome_top1000.parquet # AlphaGenome Top 1,000 prioritized human targets
+│   ├── interface_site_characterization_report.md # Master interface & active site mechanism report (1,812 complexes)
+│   ├── pilot_5_targets_binder_search.parquet # Pilot binder search benchmarks
+│   ├── reverse_binder_lookup_15_targets.parquet # 15-target reverse binder matching benchmark
+│   └── authentic_pockets_benchmark_results.parquet # Authentic pocket validation benchmark
 │
 ├── docs/                                  # Technical specifications, methods & API manuals
 │   ├── README.md                          # Documentation index and domain taxonomy
+│   ├── latent_space_binder_matching_methodology.md # Syn2Nat methodology specification
 │   ├── mappie.md                          # MAPPIE 128-d latent space & functional discovery guide
 │   ├── representation_pipeline_roadmap.md # Large-scale representation engine roadmap (HMPA 617k)
 │   ├── ppi_evaluation_hierarchy.md        # 4-pillar biophysical evaluation framework
@@ -51,16 +55,16 @@ microproteinproject/
 │
 ├── data/                                  # Project datasets & reference interactome indices
 │   ├── mappie/                            # 199,138 reference PPI latent index (latent_index.npz)
-│   ├── curated/                           # Top 50 portfolio, binding partners, query intervals
 │   ├── parsed/                            # Parsed smORF catalogs (orfs.parquet, orf_tiers.parquet)
 │   ├── screening/                         # AlphaGenome AVI purifying selection scores
-│   ├── targets/                           # Canonical human proteome (UP000005640)
-│   └── pfam/                              # Pfam-A profile HMMs
+│   └── targets/                           # Canonical human proteome (UP000005640)
 │
-├── structures/                            # 3D macromolecular structures & confidence matrices
-│   ├── pdbs/                              # 805 full-atom cofolded PDB files
-│   └── pae/                               # 805 inter-chain PAE JSON matrices
+├── structures/                            # Macromolecular structures (raw PDBs preserved locally, uncommitted)
+│   ├── pdbs/                              # Full-atom cofolded PDB files (local, ignored by git)
+│   └── pae/                               # Inter-chain PAE JSON matrices (local, ignored by git)
 │
+├── archive/                               # Safely preserved local archive of exploratory phase 1 reports
+├── notebooks/                             # Interactive Colab notebooks (syn2nat_colab.ipynb)
 ├── scripts/                               # Executable clients and pipeline scripts
 ├── plans/                                 # Multi-agent virtual lab protocols & Paperclip orchestration
 └── literature/                            # Published studies, preprints & supplementary data
@@ -68,17 +72,21 @@ microproteinproject/
 
 ---
 
-## 📊 Empirical Milestones & Reports Hub
+## 📊 Active Syn2Nat Benchmarks & Reports Hub
 
-Detailed findings are organized into five progressive reports in [**`reports/`**](reports/README.md):
+Active computational deliverables and structural benchmarks are maintained in [**`reports/`**](reports/README.md):
 
-| # | Milestone Report | Scientific Focus & Deliverable | Status |
-| :-: | :--- | :--- | :--- |
-| **1** | [**`microprotein_multiomics_analysis_report.md`**](reports/microprotein_multiomics_analysis_report.md) | **Multi-Omics Selection & Hitchhiking Resolution**<br>Screened 2.9M SNVs via AlphaGenome AVI. Proved that CDS-overlapping smORFs (`intORFs`) exhibit a 49.1x false constraint artifact from host gene hitchhiking ($p < 10^{-300}$). Established the autonomous benchmark ($n = 5,387$). | `COMPLETED` |
-| **2** | [**`top50_curated_microprotein_portfolio.md`**](reports/top50_curated_microprotein_portfolio.md) | **Curated Top 50 Microprotein Portfolio**<br>Constructed a de-confounded portfolio across 4 balanced cohorts (Tier 1 Autonomous, lncRNA-ORFs, 5' UTR uORFs, MS-validated dual-coding). | `COMPLETED` |
-| **3** | [**`top50_microprotein_binding_partners_summary.md`**](reports/top50_microprotein_binding_partners_summary.md) | **Prioritized Binding Partner Interactome**<br>Curated 500 candidate complexes (Top 50 $\times$ 10 partners) across a 4-tier biological evidence hierarchy (HIPPIE, BioGRID, IntAct, STRING). | `COMPLETED` |
-| **4** | [**`esmfold2_cofolding_report.md`**](reports/esmfold2_cofolding_report.md) | **Initial ESMFold2 Batch Screening (Phase 1)**<br>Successfully folded 345 complexes $\le 768\text{ aa}$. Flagged 155 partner size bottlenecks exceeding interactive API limits. *(Superseded by Report 5)*. | `INTERMEDIATE` |
-| **5** | [**`expanded_ppi_atlas_report.md`**](reports/expanded_ppi_atlas_report.md) | **Master Structural Atlas (805 Complexes)**<br>**100% complete coverage of Top 50** (500 complexes) + full Tier 1 peptidein interactome (305 complexes). Identified breakthrough complexes (`SNX13`–`SERPINE2` $\text{ipTM} = 0.8525$, `AP001372.2`–`PCNA` $\text{ipTM} = 0.8350$). | `AUTHORITATIVE` |
+| Category | Benchmark / Report | Focus & Deliverable | Status |
+| :--- | :--- | :--- | :--- |
+| **Target Prioritization** | [**`canonical_proteome_alphagenome_top1000`**](reports/canonical_proteome_alphagenome_top1000.tsv) | **AlphaGenome Top 1,000 Target Selection**<br>Curated and prioritized high-value human targets from the AlphaGenome atlas based on dense purifying selection (AVI Phred scores), tissue epigenetics, and disease relevance. | `ACTIVE` |
+| **Syn2Nat Retrieval** | [**`pilot_5_targets_binder_search`**](reports/pilot_5_targets_binder_search.tsv) | **Pilot De Novo Binder Retrieval**<br>End-to-end pilot validating latent-space and sequence-level matching of unconstrained synthetic binders against the microprotein catalog. | `BENCHMARK` |
+| **Reverse Lookup** | [**`reverse_binder_lookup_15_targets`**](reports/reverse_binder_lookup_15_targets.tsv) | **15-Target Reverse Binder Matching**<br>Reverse lookup evaluation evaluating cross-target specificity and multi-modal ranking across 15 high-priority human targets. | `BENCHMARK` |
+| **Multi-Scale Binders** | [**`multiscale_binder_pilot_results`**](reports/multiscale_binder_pilot_results.tsv) | **Multi-Scale Binder Pilot Evaluation**<br>Evaluation across varying unconstrained binder length regimes without artificial size forcing. | `BENCHMARK` |
+| **Pocket Verification** | [**`authentic_pockets_benchmark_results`**](reports/authentic_pockets_benchmark_results.tsv) | **Authentic Pocket Structural Benchmark**<br>Rigorous structural pocket validation comparing binder-predicted interaction footprints with native binding clefts. | `BENCHMARK` |
+| **Interface Characterization** | [**`interface_site_characterization_report.md`**](reports/interface_site_characterization_report.md) | **Master Interface Site & Mechanism Atlas (1,812 Complexes)**<br>Biophysical classification across 1,812 complexes: catalytic active site insertion ($\le 5.0\text{ \AA}$), pocket occlusion, buried surface area ($\Delta\text{SASA}$), and PDBe-KB experimental overlap. | `ACTIVE` |
+
+> [!NOTE]
+> **Exploratory Phase 1 Archival**: Early exploratory analyses (the initial 5 milestone reports on genomic selection, hitchhiking proofs, Top 50 curation, and preliminary 805-complex tables) have been uncommitted from git and safely archived locally under [`archive/exploratory_phase1/`](archive/) to maintain a lightweight, production-grade repository focused on **Syn2Nat**. Zero data was deleted.
 
 ---
 

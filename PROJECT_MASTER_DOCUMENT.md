@@ -525,27 +525,27 @@ Inspired by Stanford's Virtual Lab (*Swanson et al., Nature 2025*), this project
 
 | File / Path | Format | Count / Size | Description |
 | :--- | :---: | :---: | :--- |
-| [`structures/pdbs/`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/pdbs/) | PDB | **805 files** | Full-atom 3D atomic coordinates for all cofolded complexes. |
-| [`structures/pae/`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/pae/) | JSON | **805 files** | $L \times L$ inter-chain Predicted Aligned Error matrices. |
-| [`structures/cofolding_state.jsonl`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/cofolding_state.jsonl) | JSONL | 610 KB | Real-time state ledger recording every live API call. |
-| [`structures/SNX13_SERPINE2_interface.pml`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/SNX13_SERPINE2_interface.pml) | PyMOL | 1.2 KB | 3D rendering script for SNX13–SERPINE2 interface. |
-| [`structures/MORF4L2_KAT5_interface.pml`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/MORF4L2_KAT5_interface.pml) | PyMOL | 828 B | 3D rendering script for MORF4L2–KAT5 interface. |
-| [`structures/CDC123_PPP1CA_interface.pml`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/CDC123_PPP1CA_interface.pml) | PyMOL | 845 B | 3D rendering script for CDC123–PPP1CA interface. |
+| [`structures/pdbs/`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/pdbs/) | PDB | **1,923 files** | Full-atom 3D atomic coordinates (preserved locally on disk; ignored by git). |
+| [`structures/pae/`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/pae/) | JSON | **805 files** | $L \times L$ inter-chain Predicted Aligned Error matrices (local, ignored by git). |
+| [`structures/cofolding_state.jsonl`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/structures/cofolding_state.jsonl) | JSONL | 610 KB | Real-time state ledger recording every live API call (local, ignored by git). |
+| [`archive/exploratory_phase1/structures/`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/archive/exploratory_phase1/structures/) | PyMOL | 3 scripts | Archived 3D rendering scripts (SNX13–SERPINE2, MORF4L2–KAT5, CDC123–PPP1CA). |
 
-### 12.3 Reports & Portfolios (`reports/`)
+### 12.3 Active Syn2Nat Reports & Benchmarks (`reports/`)
 
-| File / Path | Format | Description |
-| :--- | :---: | :--- |
-| [`reports/master_microprotein_ppi_structural_atlas.parquet`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/master_microprotein_ppi_structural_atlas.parquet) | Parquet | Unified master atlas of all 805 cofolded complexes (35 columns). |
-| [`reports/master_microprotein_ppi_structural_atlas.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/master_microprotein_ppi_structural_atlas.tsv) | TSV | Tabular master atlas of all 805 cofolded complexes. |
-| [`reports/top50_curated_candidates.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/top50_curated_candidates.tsv) | TSV | De-confounded Top 50 microprotein portfolio catalog. |
-| [`reports/top50_microprotein_binding_partners_top10.parquet`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/top50_microprotein_binding_partners_top10.parquet) | Parquet | Prioritized 500 candidate complexes (Top 50 $\times$ 10 partners). |
-| [`reports/expanded_ppi_candidates_460.parquet`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/expanded_ppi_candidates_460.parquet) | Parquet | Curation table for the 460 expansion candidates (Tracks A & B). |
-| [`reports/microprotein_multiomics_analysis_report.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/microprotein_multiomics_analysis_report.md) | Markdown | Multi-omics analysis and Hitchhiking Confounder proof. |
-| [`reports/top50_curated_microprotein_portfolio.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/top50_curated_microprotein_portfolio.md) | Markdown | Four-cohort breakdown and catalog of the Top 50 portfolio. |
-| [`reports/top50_microprotein_binding_partners_summary.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/top50_microprotein_binding_partners_summary.md) | Markdown | Exhaustive dossier detailing all 500 candidate partner pairs. |
-| [`reports/esmfold2_cofolding_report.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/esmfold2_cofolding_report.md) | Markdown | Report for the initial 500-complex cofolding campaign. |
-| [`reports/expanded_ppi_atlas_report.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/expanded_ppi_atlas_report.md) | Markdown | Report detailing the 805-complex expanded master structural atlas. |
+| File / Path | Format | Status | Description |
+| :--- | :---: | :---: | :--- |
+| [`reports/canonical_proteome_alphagenome_top1000.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/canonical_proteome_alphagenome_top1000.tsv) | TSV | `ACTIVE` | Prioritized Top 1,000 human targets from AlphaGenome selection atlas. |
+| [`reports/canonical_proteome_alphagenome_top1000.parquet`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/canonical_proteome_alphagenome_top1000.parquet) | Parquet | `ACTIVE` | Parquet database of Top 1,000 AlphaGenome prioritized targets. |
+| [`reports/interface_site_characterization_report.md`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/interface_site_characterization_report.md) | Markdown | `ACTIVE` | Master interface site characterization across 1,812 complexes (active site insertion, $\Delta\text{SASA}$). |
+| [`reports/interface_site_annotations_summary.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/interface_site_annotations_summary.tsv) | TSV | `ACTIVE` | Tabular interface site annotations summary (1,812 rows, 39 columns). |
+| [`reports/pilot_5_targets_binder_search.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/pilot_5_targets_binder_search.tsv) | TSV | `BENCHMARK` | Pilot de novo binder latent-space retrieval benchmarks for top targets. |
+| [`reports/reverse_binder_lookup_15_targets.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/reverse_binder_lookup_15_targets.tsv) | TSV | `BENCHMARK` | 15-target reverse binder cross-matching specificity benchmark. |
+| [`reports/multiscale_binder_pilot_results.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/multiscale_binder_pilot_results.tsv) | TSV | `BENCHMARK` | Multi-scale binder pilot results across unconstrained length regimes. |
+| [`reports/authentic_pockets_benchmark_results.tsv`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/authentic_pockets_benchmark_results.tsv) | TSV | `BENCHMARK` | Authentic pocket structural validation benchmark. |
+| [`reports/continuous_cofolding_candidates.parquet`](file:///c:/Users/Lucas.Escosteguy/documentos/microproteinproject/reports/continuous_cofolding_candidates.parquet) | Parquet | `ACTIVE` | Streaming candidate queue for continuous targeted structural validation. |
+
+> [!NOTE]
+> **Archived Exploratory Phase 1 Deliverables**: Early exploratory milestone reports (`microprotein_multiomics_analysis_report.md`, `top50_curated_microprotein_portfolio.md`, `top50_microprotein_binding_partners_summary.md`, `esmfold2_cofolding_report.md`, `expanded_ppi_atlas_report.md`) and their associated datasets (`master_microprotein_ppi_structural_atlas.*`, `top50_*`, `expanded_ppi_*`) are preserved safely in [`archive/exploratory_phase1/reports/`](archive/exploratory_phase1/reports/) and uncommitted from git.
 
 ### 12.4 Pipeline Scripts (`scripts/`)
 
